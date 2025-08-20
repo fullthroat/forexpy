@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_TABLE: ${DB_TABLE}
+      FETCH_INTERVALS: ${FETCH_INTERVALS}
+      SYMBOL: ${SYMBOL}
+      START_DATE: ${START_DATE}
+      END_DATE: ${END_DATE}
+    command: ["python", "client.py"]
+
+volumes:
+  db_data:

@@ -216,6 +216,22 @@ after the final output. You may want to keep them. Run the following:
 
     python fetch.py --source hist --keep T
 
+## Docker
+
+This repository includes a simple scheduled client that stores downloaded
+rates in a MySQL database.  A `Dockerfile` and `docker-compose.yml` are
+provided to run the service.
+
+1. Copy `.env.example` to `.env` and adjust the configuration as needed.
+2. Build and start the stack:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+The client will fetch data at the minute intervals defined in
+`FETCH_INTERVALS` and persist the results to the configured database.
+
 ## Disclaimer
 
 I have no affiliation with the data sources used in the package. 
